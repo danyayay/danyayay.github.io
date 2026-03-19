@@ -16,8 +16,8 @@
         <div class="nav-inner">
             <a href="#" class="nav-name"> </a>
             <div class="nav-links">
-                <a href="#experience">Research experience</a>
                 <a href="#publications">Publications</a>
+                <a href="#experience">Research Experience</a>
                 <a href="#education">Education</a>
             </div>
             <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
@@ -26,8 +26,8 @@
         </div>
         <div class="nav-mobile" id="nav-mobile">
             <a href="#about">About</a>
-            <a href="#experience">Research</a>
             <a href="#publications">Publications</a>
+            <a href="#experience">Research Experience</a>
             <a href="#education">Education</a>
         </div>
     </nav>
@@ -93,164 +93,166 @@
         </div>
     </section>
 
-    <!-- Research Experience (with figures) -->
-    <section id="experience" class="section">
+    <!-- Publications (with figures) -->
+    <section id="publications" class="section">
         <div class="container">
-            <h2 class="section-title">Research Experience</h2>
+            <h2 class="section-title">Publications</h2>
 
-            <!-- GazeX -->
-            <div class="research-card">
-                <div class="research-figure">
+            <!-- GazeX Paper -->
+            <!-- <div class="pub-card">
+                <div class="pub-figure">
                     <img src="figures/phd-paper2_expt.png" alt="VR + Eye Gaze + Trajectory Prediction" loading="lazy">
                 </div>
-                <div class="research-info">
-                    <h3>Eye Gaze-Informed and Context-Aware Pedestrian Trajectory Prediction</h3>
-                    <p class="research-meta">MLSM, DTU &middot; 2024 &ndash; 2025</p>
-                    <p>Designed and built a high-fidelity VR simulation environment in Unreal Engine 5 to simulate critical pedestrian-AV interactions. Engineered an automated data pipeline to capture synchronized eye gaze, head pose, and trajectory data from human subjects. Proved that integrating physiological cues (gaze) and experimental contexts via a multimodal sensor fusion network reduces prediction error, providing key insights for driver monitoring and intention estimation systems.</p>
-                    <div class="research-links">
+                <div class="pub-info">
+                    <h3 class="pub-title">Eye Gaze-Informed and Context-Aware Pedestrian Trajectory Prediction in Shared Spaces with Automated Shuttles: A Virtual Reality Study</h3>
+                    <p class="pub-authors"><strong>Danya Li</strong>, Yan Feng, Rico Krueger</p>
+                    <p class="pub-venue"><em>Under review</em>, 2025</p>
+                    <p class="pub-abstract">A multimodal framework integrating eye gaze, head pose, and trajectory data from VR experiments to predict pedestrian behavior around automated shuttles.</p>
+                    <div class="pub-links">
                         <a href="gazex_paper.pdf" class="pub-link">Paper</a>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
-            <!-- Review -->
-            <div class="research-card">
-                <div class="research-figure">
+            <!-- Review Paper -->
+            <div class="pub-card">
+                <div class="pub-figure">
                     <img src="figures/phd-paper1.png" alt="Systematic Review" loading="lazy">
                 </div>
-                <div class="research-info">
-                    <h3>Understanding and Predicting Human-AV Interactions: A Systematic Review</h3>
-                    <p class="research-meta">MLSM, DTU &middot; 2023 &ndash; 2024</p>
-                    <p>Systematically reviewed 99 articles and identified technical and methodological research gaps for human-AV interaction prediction systems. Evaluated existing work across five dimensions &mdash; scalability, criticality, versatility, adaptability, and generalizability &mdash; and proposed actionable directions for advancing the field.</p>
-                    <div class="research-links">
+                <div class="pub-info">
+                    <h3 class="pub-title">Understanding and Predicting Human Behavior in Interactions with Autonomous Systems in Urban Environments: A Systematic Review, Challenges, and Opportunities</h3>
+                    <p class="pub-authors"><strong>Danya Li</strong>, Wencan Mao, Francisco Pereira, Yu Xiao, Xiang Su, Rico Krueger</p>
+                    <p class="pub-venue"><em>Transportation Research Part F: Traffic Psychology and Behaviour</em> 114: 270-307, 2025</p>
+                    <p class="pub-abstract">A comprehensive review of 99 articles identifying technical and methodological research gaps in human-AV interaction prediction across scalability, criticality, versatility, adaptability, and generalizability with suggested actionable directions for advancing.</p>
+                    <div class="pub-links">
                         <a href="https://www.sciencedirect.com/science/article/pii/S1369847825001950" class="pub-link">Paper</a>
                     </div>
                 </div>
             </div>
 
-            <!-- Motion Style Transfer -->
-            <div class="research-card">
-                <div class="research-figure">
-                    <img src="https://raw.githubusercontent.com/vita-epfl/motion-style-transfer/main/docs/Pull2.png" alt="Motion Style Transfer architecture" loading="lazy">
-                </div>
-                <div class="research-info">
-                    <h3>Motion Style Transfer: Modular Low-Rank Adaptation for Deep Motion Forecasting</h3>
-                    <p class="research-meta">Master Thesis &middot; VITA Lab, EPFL &middot; 2022</p>
-                    <p>Efficiently adapted pre-trained motion forecasting models to new domains with limited samples by adding low-rank motion style adapters, outperforming fine-tuning while updating only &lt;5% extra parameters. A modular adapter strategy disentangles features of scene context and motion history, enabling fine-grained choice of adaptation layers given a-priori knowledge about the target domain.</p>
-                    <div class="research-links">
-                        <a href="https://proceedings.mlr.press/v205/kothari23a/kothari23a.pdf" class="pub-link">Paper</a>
-                        <a href="https://github.com/vita-epfl/motion-style-transfer" class="pub-link" target="_blank">Code</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- TwoResNet -->
-            <div class="research-card">
-                <div class="research-figure">
+            <!-- TwoResNet Journal -->
+            <div class="pub-card">
+                <div class="pub-figure">
                     <img src="https://raw.githubusercontent.com/semink/TwoResNet/main/figs/tworesnet_light.svg" alt="TwoResNet architecture" loading="lazy">
                 </div>
-                <div class="research-info">
-                    <h3>TwoResNet: Two-Level Resolution Neural Network for Traffic Forecasting</h3>
-                    <p class="research-meta">Semester Project &middot; LUTS, EPFL &middot; 2020 &ndash; 2021</p>
-                    <p>Proposed a two-level resolution deep neural network architecture that decomposes spatio-temporal correlations into low and high-resolution blocks, explaining general changes and fine details of traffic speed respectively. Applied to two real-world freeway datasets (METR-LA, PEMS-BAY) and obtained improved performance, especially for long-term prediction horizons. Extended to a journal version with enhanced interpretability analysis.</p>
-                    <div class="research-links">
-                        <a href="https://ieeexplore.ieee.org/abstract/document/9922160/" class="pub-link">Paper (ITSC)</a>
-                        <a href="https://www.nature.com/articles/s41598-024-78148-1" class="pub-link">Paper (Sci. Reports)</a>
+                <div class="pub-info">
+                    <h3 class="pub-title">A Two-Level Resolution Neural Network with Enhanced Interpretability for Freeway Traffic Forecasting</h3>
+                    <p class="pub-authors">Semin Kwak, <strong>Danya Li</strong>, Nikolas Geroliminis</p>
+                    <p class="pub-venue"><em>Scientific Reports</em> 14.1: 31624, 2024</p>
+                    <p class="pub-abstract">Journal extension of TwoResNet with enhanced interpretability analysis for multi-scale freeway traffic speed prediction.</p>
+                    <div class="pub-links">
+                        <a href="https://www.nature.com/articles/s41598-024-78148-1" class="pub-link">Paper</a>
                         <a href="https://github.com/semink/TwoResNet" class="pub-link" target="_blank">Code</a>
                     </div>
                 </div>
             </div>
 
-            <!-- Cropland -->
-            <div class="research-card">
-                <div class="research-figure">
+            <!-- Cropland Paper -->
+            <div class="pub-card">
+                <div class="pub-figure">
                     <img src="figures/intern.png" alt="Remote Sensing + ML" loading="lazy">
                 </div>
-                <div class="research-info">
-                    <h3>ML for Cropland Detection using Satellite Images</h3>
-                    <p class="research-meta">Data Scientist Intern &middot; Empa &middot; 2021 &ndash; 2022</p>
-                    <p>Built a machine learning pipeline for cropland detection from satellite image time series in the Indian Himalayan region, generating an open-access cropland map to support agricultural monitoring and food security analysis.</p>
-                    <div class="research-links">
+                <div class="pub-info">
+                    <h3 class="pub-title">Using Machine Learning to Generate an Open-Access Cropland Map from Satellite Images Time Series in the Indian Himalayan Region</h3>
+                    <p class="pub-authors"><strong>Danya Li</strong>, Joaquin Gajardo, Michele Volpi, Thijs Defraeye</p>
+                    <p class="pub-venue"><em>Remote Sensing Applications: Society and Environment</em> 32: 101057, 2023</p>
+                    <p class="pub-abstract">A machine learning pipeline for cropland detection from satellite image time series, applied to the Indian Himalayan region.</p>
+                    <div class="pub-links">
                         <a href="https://www.sciencedirect.com/science/article/abs/pii/S2352938523001398" class="pub-link">Paper</a>
                         <a href="https://github.com/YourVirtualColdChainAssistant/MLsat-cropland-himachal" class="pub-link" target="_blank">Code</a>
                     </div>
                 </div>
             </div>
 
-            <!-- VLM (ongoing) -->
-            <!-- <div class="research-card">
-                <div class="research-figure">
-                    <div class="research-figure-placeholder">VLM + Egocentric Video</div>
+            <!-- Motion Style Transfer -->
+            <div class="pub-card">
+                <div class="pub-figure">
+                    <img src="https://raw.githubusercontent.com/vita-epfl/motion-style-transfer/main/docs/Pull2.png" alt="Motion Style Transfer architecture" loading="lazy">
                 </div>
-                <div class="research-info">
-                    <h3>Egocentric Human Intention Prediction using Foundation Models</h3>
-                    <p class="research-meta">MLSM, DTU &middot; 2025 &ndash; 2026 (ongoing)</p>
-                    <p>Engineering a Vision-Language Model (VLM) pipeline for zero-shot pedestrian intention prediction from egocentric videos, leveraging foundation models to generalize across unseen scenarios without task-specific training data.</p>
+                <div class="pub-info">
+                    <h3 class="pub-title">Motion Style Transfer: Modular Low-Rank Adaptation for Deep Motion Forecasting</h3>
+                    <p class="pub-authors">Parth Kothari, <strong>Danya Li</strong>, Yuejiang Liu, Alexandre Alahi</p>
+                    <p class="pub-venue"><em>Conference on Robot Learning (CoRL)</em>, 2022</p>
+                    <p class="pub-abstract">A low-rank motion style adapter that efficiently transfers pre-trained forecasting models to new domains, updating less than 5% extra parameters while outperforming full fine-tuning. Our modular adapter strategy that disentangles the features of scene and motion allows for more efficient adaptation to new transportation modes.</p>
+                    <div class="pub-links">
+                        <a href="https://proceedings.mlr.press/v205/kothari23a/kothari23a.pdf" class="pub-link">Paper</a>
+                        <a href="https://github.com/vita-epfl/motion-style-transfer" class="pub-link" target="_blank">Code</a>
+                    </div>
                 </div>
-            </div> -->
+            </div>
+
+            <!-- TwoResNet Conference -->
+            <div class="pub-card">
+                <div class="pub-figure">
+                    <img src="https://raw.githubusercontent.com/semink/TwoResNet/main/figs/tworesnet_light.svg" alt="TwoResNet" loading="lazy">
+                </div>
+                <div class="pub-info">
+                    <h3 class="pub-title">TwoResNet: Two-Level Resolution Neural Network for Traffic Forecasting of Freeway Networks</h3>
+                    <p class="pub-authors"><strong>Danya Li</strong>*, Semin Kwak*, Nikolas Geroliminis</p>
+                    <p class="pub-venue"><em>IEEE Intelligent Transportation Systems Conference (ITSC)</em>, 2022</p>
+                    <p class="pub-abstract">A two-level resolution architecture decomposing spatio-temporal traffic correlations into low and high-resolution blocks that explain general changes and details of traffic speed, achieving overall improved performance, especially for the long-term.</p>
+                    <div class="pub-links">
+                        <a href="https://ieeexplore.ieee.org/abstract/document/9922160/" class="pub-link">Paper</a>
+                        <a href="https://github.com/semink/TwoResNet" class="pub-link" target="_blank">Code</a>
+                    </div>
+                </div>
+            </div>
 
         </div>
     </section>
 
-    <!-- Publications (compact list) -->
-    <section id="publications" class="section section-alt">
+    <!-- Research Experience (simple list, no figures) -->
+    <section id="experience" class="section section-alt">
         <div class="container">
-            <h2 class="section-title">Publications</h2>
-            <!-- <p class="section-subtitle">* denotes equal contribution</p> -->
-            <ol class="pub-list" reversed>
-                <li class="pub-list-item">
-                    <strong>Danya Li</strong>, Yan Feng, Rico Krueger.
-                    &ldquo;Eye Gaze-Informed and Context-Aware Pedestrian Trajectory Prediction in Shared Spaces with Automated Shuttles: A Virtual Reality Study.&rdquo;
-                    <em>Under review</em>, 2025.
-                    <span class="pub-list-links">
-                        <a href="gazex_paper.pdf">PDF</a>
-                    </span>
-                </li>
-                <li class="pub-list-item">
-                    <strong>Danya Li</strong>, Wencan Mao, Francisco Pereira, Yu Xiao, Xiang Su, Rico Krueger.
-                    &ldquo;Understanding and Predicting Human Behavior in Interactions with Autonomous Systems in Urban Environments: A Systematic Review, Challenges, and Opportunities.&rdquo;
-                    <em>Transportation Research Part F: Traffic Psychology and Behaviour</em> 114: 270-307, 2025.
-                    <span class="pub-list-links">
-                        <a href="https://www.sciencedirect.com/science/article/pii/S1369847825001950">Paper</a>
-                    </span>
-                </li>
-                <li class="pub-list-item">
-                    Semin Kwak, <strong>Danya Li</strong>, Nikolas Geroliminis.
-                    &ldquo;A Two-Level Resolution Neural Network with Enhanced Interpretability for Freeway Traffic Forecasting.&rdquo;
-                    <em>Scientific Reports</em> 14.1: 31624, 2024.
-                    <span class="pub-list-links">
-                        <a href="https://www.nature.com/articles/s41598-024-78148-1">Paper</a>
-                        <a href="https://github.com/semink/TwoResNet">Code</a>
-                    </span>
-                </li>
-                <li class="pub-list-item">
-                    <strong>Danya Li</strong>, Joaquin Gajardo, Michele Volpi, Thijs Defraeye.
-                    &ldquo;Using Machine Learning to Generate an Open-Access Cropland Map from Satellite Images Time Series in the Indian Himalayan Region.&rdquo;
-                    <em>Remote Sensing Applications: Society and Environment</em> 32: 101057, 2023.
-                    <span class="pub-list-links">
-                        <a href="https://www.sciencedirect.com/science/article/abs/pii/S2352938523001398">Paper</a>
-                        <a href="https://github.com/YourVirtualColdChainAssistant/MLsat-cropland-himachal">Code</a>
-                    </span>
-                </li>
-                <li class="pub-list-item">
-                    Parth Kothari, <strong>Danya Li</strong>, Yuejiang Liu, Alexandre Alahi.
-                    &ldquo;Motion Style Transfer: Modular Low-Rank Adaptation for Deep Motion Forecasting.&rdquo;
-                    <em>Conference on Robot Learning (CoRL)</em>, 2022.
-                    <span class="pub-list-links">
-                        <a href="https://proceedings.mlr.press/v205/kothari23a/kothari23a.pdf">Paper</a>
-                        <a href="https://github.com/vita-epfl/motion-style-transfer">Code</a>
-                    </span>
-                </li>
-                <li class="pub-list-item">
-                    <strong>Danya Li</strong>*, Semin Kwak*, Nikolas Geroliminis.
-                    &ldquo;TwoResNet: Two-Level Resolution Neural Network for Traffic Forecasting of Freeway Networks.&rdquo;
-                    <em>IEEE Intelligent Transportation Systems Conference (ITSC)</em>, 2022.
-                    <span class="pub-list-links">
-                        <a href="https://ieeexplore.ieee.org/abstract/document/9922160/">Paper</a>
-                        <a href="https://github.com/semink/TwoResNet">Code</a>
-                    </span>
-                </li>
-            </ol>
+            <h2 class="section-title">Research Experience</h2>
+            <div class="experience-list">
+
+                <!-- <div class="exp-item">
+                    <div class="exp-date">2024 &ndash; 2025</div>
+                    <div class="exp-content">
+                        <h3>Multimodal Trajectory Prediction with Eye-Gaze Integration</h3>
+                        <p class="exp-meta">MLSM, DTU &middot; Kongens Lyngby, Denmark</p>
+                        <p>Designed a high-fidelity VR simulation in Unreal Engine 5. Built automated pipelines for synchronized eye gaze, head pose, and trajectory capture. Demonstrated that multimodal sensor fusion with gaze cues reduces prediction error.</p>
+                    </div>
+                </div> -->
+
+                <div class="exp-item">
+                    <div class="exp-date">2023 &ndash; 2024</div>
+                    <div class="exp-content">
+                        <h3>Systematic Review on Human-AV Interaction Prediction</h3>
+                        <p class="exp-meta">MLSM, DTU &middot; Kongens Lyngby, Denmark</p>
+                        <p>Reviewed 99 articles identifying technical and methodological gaps across scalability, criticality, versatility, adaptability, and generalizability dimensions.</p>
+                    </div>
+                </div>
+
+                <div class="exp-item">
+                    <div class="exp-date">2022</div>
+                    <div class="exp-content">
+                        <h3>Transfer Learning on Trajectory Forecasting</h3>
+                        <p class="exp-meta">Master Thesis &middot; VITA Lab, EPFL &middot; Lausanne, Switzerland</p>
+                        <p>Developed low-rank motion style adapters for efficient domain adaptation in deep motion forecasting, outperforming fine-tuning with &lt;5% extra parameters.</p>
+                    </div>
+                </div>
+
+                <div class="exp-item">
+                    <div class="exp-date">2021 &ndash; 2022</div>
+                    <div class="exp-content">
+                        <h3>ML for Cropland Detection using Satellite Images</h3>
+                        <p class="exp-meta">Data Scientist Intern &middot; Empa &middot; St. Gallen, Switzerland</p>
+                        <p>Built a machine learning pipeline for cropland detection from satellite image time series in the Indian Himalayan region.</p>
+                    </div>
+                </div>
+
+                <div class="exp-item">
+                    <div class="exp-date">2020 &ndash; 2021</div>
+                    <div class="exp-content">
+                        <h3>Two-Level Resolution Neural Networks for Traffic Prediction</h3>
+                        <p class="exp-meta">Semester Project &middot; LUTS, EPFL &middot; Lausanne, Switzerland</p>
+                        <p>Proposed a two-level resolution deep neural network decomposing spatio-temporal traffic correlations into multi-scale blocks.</p>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </section>
 
@@ -369,7 +371,7 @@
                 if (entry.isIntersecting) entry.target.classList.add('visible');
             });
         }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
-        document.querySelectorAll('.research-card, .pub-list-item, .exp-item, .edu-item').forEach(el => {
+        document.querySelectorAll('.pub-card, .exp-item, .edu-item').forEach(el => {
             el.classList.add('reveal');
             observer.observe(el);
         });
