@@ -16,7 +16,7 @@
     <title>Danya Li | Ph.D. Student</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@400;600&family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -112,7 +112,7 @@
     <!-- Publications (with figures) -->
     <section id="publications" class="section">
         <div class="container">
-            <span class="section-label">Research</span>
+            <span class="section-label">01</span>
             <h2 class="section-title">Publications</h2>
 
             <!-- GazeX Paper -->
@@ -219,7 +219,7 @@
     <!-- Experience (roles & positions, not repeating publication content) -->
     <section id="experience" class="section section-alt">
         <div class="container">
-            <span class="section-label">Career</span>
+            <span class="section-label">02</span>
             <h2 class="section-title">Experience</h2>
             <div class="experience-list">
 
@@ -366,10 +366,15 @@
 
     <!-- Duck Pond -->
     <section class="pond-section" id="pond">
-        <div class="pond-hint">click on the pond to add your duck!</div>
+        <div class="pond-hint">click to add your duck!</div>
         <canvas id="pond-canvas"></canvas>
         <svg class="pond-waves" viewBox="0 0 1440 120" preserveAspectRatio="none">
-            <path d="M0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 L0,0 Z" fill="var(--bg)" />
+            <defs>
+                <clipPath id="wave-clip">
+                    <path id="wave-path" d="" />
+                </clipPath>
+            </defs>
+            <rect x="0" y="0" width="1440" height="120" fill="#FEF3C7" clip-path="url(#wave-clip)" />
         </svg>
     </section>
 
@@ -437,39 +442,44 @@
             window.addEventListener('resize', resize);
             resize();
 
-            // Watercolor pond background - matches site theme
+            // Watercolor pond background - warm golden theme
             function drawPond() {
-                // Gradient base - dark blue matching site theme
+                // Warm amber-to-cream pond base (matching site palette)
                 const grad = ctx.createLinearGradient(0, 0, 0, H);
-                grad.addColorStop(0, 'rgba(54, 85, 130, 0.5)');
-                grad.addColorStop(0.5, 'rgba(42, 70, 110, 0.6)');
-                grad.addColorStop(1, 'rgba(30, 55, 90, 0.7)');
+                grad.addColorStop(0, 'rgba(254, 243, 199, 0.85)');
+                grad.addColorStop(0.4, 'rgba(251, 191, 36, 0.68)');
+                grad.addColorStop(1, 'rgba(245, 158, 11, 0.55)');
                 ctx.fillStyle = grad;
                 ctx.fillRect(0, 0, W, H);
 
-                // Subtle accent blotches (blue tones)
+                // Warm shimmer blotches (cream and soft orange tones)
                 const time = Date.now() * 0.0003;
                 for (let i = 0; i < 8; i++) {
                     const x = W * (0.1 + 0.8 * ((i * 0.137 + Math.sin(time + i)) % 1));
                     const y = H * (0.2 + 0.6 * ((i * 0.293 + Math.cos(time * 0.7 + i * 2)) % 1));
                     const r = 60 + 40 * Math.sin(time + i * 1.5);
                     const g = ctx.createRadialGradient(x, y, 0, x, y, r);
-                    g.addColorStop(0, 'rgba(96, 184, 248, 0.15)');
-                    g.addColorStop(1, 'rgba(96, 184, 248, 0)');
+                    g.addColorStop(0, i % 2 === 0 ? 'rgba(255, 255, 255, 0.25)' : 'rgba(234, 88, 12, 0.12)');
+                    g.addColorStop(1, 'rgba(251, 191, 36, 0)');
                     ctx.fillStyle = g;
                     ctx.beginPath();
                     ctx.arc(x, y, r, 0, Math.PI * 2);
                     ctx.fill();
                 }
 
-                // Subtle lily pads with accent glow
-                for (let i = 0; i < 4; i++) {
-                    const lx = W * (0.15 + i * 0.22);
+                // Lily pads - warm cream and gold tones
+                for (let i = 0; i < 5; i++) {
+                    const lx = W * (0.1 + i * 0.2);
                     const ly = H * (0.5 + 0.2 * Math.sin(time * 0.5 + i * 3));
-                    const lr = 12 + 5 * Math.sin(time + i);
-                    ctx.fillStyle = 'rgba(96, 184, 248, 0.12)';
+                    const lr = 14 + 5 * Math.sin(time + i);
+                    ctx.fillStyle = 'rgba(254, 243, 199, 0.45)';
                     ctx.beginPath();
-                    ctx.ellipse(lx, ly, lr, lr * 0.7, 0.3 * i, 0, Math.PI * 1.8);
+                    ctx.ellipse(lx, ly, lr, lr * 0.65, 0.3 * i, 0, Math.PI * 1.8);
+                    ctx.fill();
+                    // Little flower dot - warm accent red
+                    ctx.fillStyle = 'rgba(220, 38, 38, 0.4)';
+                    ctx.beginPath();
+                    ctx.arc(lx, ly, 3, 0, Math.PI * 2);
                     ctx.fill();
                 }
             }
@@ -487,7 +497,7 @@
                     return this.r < this.maxR;
                 }
                 draw() {
-                    ctx.strokeStyle = `rgba(96, 184, 248, ${this.alpha * 0.6})`;
+                    ctx.strokeStyle = `rgba(251, 191, 36, ${this.alpha * 0.7})`;
                     ctx.lineWidth = 1.5;
                     ctx.beginPath();
                     ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
@@ -540,10 +550,16 @@
                     this.x += this.vx;
                     this.y += this.vy;
 
-                    // Bounce off edges
+                    // Bounce off edges and constrain to wave
                     if (this.x < this.size) { this.x = this.size; this.vx *= -1; this.dir = 1; }
                     if (this.x > W - this.size) { this.x = W - this.size; this.vx *= -1; this.dir = -1; }
-                    if (this.y < this.size) { this.y = this.size; this.vy *= -1; }
+                    
+                    // Get wave height at duck's x position and constrain duck above it
+                    const waveHeightAtX = getWaveHeightAtX(this.x);
+                    if (this.y < waveHeightAtX + this.size) { 
+                        this.y = waveHeightAtX + this.size; 
+                        this.vy *= -1; 
+                    }
                     if (this.y > H - this.size) { this.y = H - this.size; this.vy *= -1; }
 
                     // Random direction changes
@@ -571,8 +587,8 @@
                     ctx.translate(dx, dy);
                     ctx.scale(this.dir, 1);
 
-                    // Wake/trail in water - subtle accent glow
-                    ctx.fillStyle = 'rgba(96, 184, 248, 0.08)';
+                    // Wake/trail in water - warm shimmer
+                    ctx.fillStyle = 'rgba(251, 191, 36, 0.12)';
                     ctx.beginPath();
                     ctx.ellipse(0, s * 0.35, s * 0.9, s * 0.2, 0, 0, Math.PI * 2);
                     ctx.fill();
@@ -718,6 +734,60 @@
                     }
                 }
 
+
+                // Duck-to-duck collision detection
+                for (let i = 0; i < ducks.length; i++) {
+                    for (let j = i + 1; j < ducks.length; j++) {
+                        const d1 = ducks[i];
+                        const d2 = ducks[j];
+                        const dx = d2.x - d1.x;
+                        const dy = d2.y - d1.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        const minDist = d1.size + d2.size;
+
+                        if (dist < minDist) {
+                            // Collision detected - bounce effect
+                            const angle = Math.atan2(dy, dx);
+                            const sin = Math.sin(angle);
+                            const cos = Math.cos(angle);
+
+                            // Separate ducks to avoid overlap
+                            const overlap = minDist - dist;
+                            const sepX = (overlap / 2) * cos;
+                            const sepY = (overlap / 2) * sin;
+                            d1.x -= sepX;
+                            d1.y -= sepY;
+                            d2.x += sepX;
+                            d2.y += sepY;
+
+                            // Exchange velocity components along collision axis
+                            const v1x = d1.vx;
+                            const v1y = d1.vy;
+                            const v2x = d2.vx;
+                            const v2y = d2.vy;
+
+                            // Project velocities onto collision normal
+                            const v1Normal = v1x * cos + v1y * sin;
+                            const v2Normal = v2x * cos + v2y * sin;
+
+                            // Only bounce if moving towards each other
+                            if (v1Normal - v2Normal > 0) {
+                                // Swap normal components (elastic collision)
+                                const newV1Normal = v2Normal;
+                                const newV2Normal = v1Normal;
+
+                                // Update velocities
+                                d1.vx += (newV1Normal - v1Normal) * cos;
+                                d1.vy += (newV1Normal - v1Normal) * sin;
+                                d2.vx += (newV2Normal - v2Normal) * cos;
+                                d2.vy += (newV2Normal - v2Normal) * sin;
+
+                                // Create ripple at collision point
+                                ripples.push(new Ripple(d1.x + dx * 0.5, d1.y + dy * 0.5));
+                            }
+                        }
+                    }
+                }
                 // Update & draw ducks
                 ducks.forEach(d => { d.update(); d.draw(); });
 
@@ -728,6 +798,53 @@
             // Start with 2 ducks
             ducks.push(new Duck(W * 0.3, H * 0.5));
             ducks.push(new Duck(W * 0.7, H * 0.4));
+
+            // ===== Animated Wave =====
+            const wavePathElement = document.getElementById('wave-path');
+            const waveSvg = document.querySelector('.pond-waves');
+            let waveTime = 0;
+            
+            // Wave parameters for calculation
+            const waveAmplitude = 5;
+            const waveFrequency = 0.01;
+            const waveBaseY = 5;
+            const waveScale = H / 120; // SVG viewBox is 120, canvas is H
+
+            function getWaveHeightAtX(canvasX) {
+                // Convert canvas X coordinate to SVG viewBox coordinates
+                const svgX = (canvasX / W) * 1440;
+                // Calculate wave height at this X position
+                const y = waveBaseY + Math.sin(svgX * waveFrequency + waveTime) * waveAmplitude;
+                // Convert back to canvas coordinates
+                return y * waveScale;
+            }
+
+            function generateWavePath() {
+                waveTime += 0.005; // Slowed down animation
+                const points = [];
+
+                // Start at top left, go down to baseY
+                points.push(`M0,0`);
+                points.push(`L0,${waveBaseY}`);
+                
+                // Generate wave points
+                for (let x = 0; x <= 1440; x += 20) {
+                    const y = waveBaseY + Math.sin(x * waveFrequency + waveTime) * waveAmplitude;
+                    points.push(`L${x},${y}`);
+                }
+
+                // Close the path - go to bottom right, then bottom left
+                points.push(`L1440,0`);
+                points.push('Z');
+
+                return points.join(' ');
+            }
+
+            function animateWave() {
+                wavePathElement.setAttribute('d', generateWavePath());
+                requestAnimationFrame(animateWave);
+            }
+            animateWave();
         })();
     </script>
 </body>
