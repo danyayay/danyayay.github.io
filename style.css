@@ -406,9 +406,6 @@ a:hover {
     border-top: 1px solid var(--border);
 }
 
-.news-section h3,
-.research-interests h3 { }
-
 .news-list { list-style: none; }
 
 .news-list li {
@@ -814,11 +811,16 @@ a:hover {
     z-index: 3;
     font-family: var(--font-mono);
     font-size: 0.68rem;
-    color: rgba(255, 255, 255, 0.45);
+    color: rgba(96, 184, 248, 0.4);
     letter-spacing: 0.12em;
     pointer-events: none;
     white-space: nowrap;
     text-transform: uppercase;
+    transition: color 0.3s;
+}
+
+#pond-canvas:hover ~ .pond-hint {
+    color: rgba(96, 184, 248, 0.7);
 }
 
 .pond-footer {

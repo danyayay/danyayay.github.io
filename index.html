@@ -84,7 +84,7 @@
                     <img src="figures/danya.jpg" alt="Danya Li" class="hero-photo">
                     <div class="hero-contact">
                         <h2>Danya Li</h2>
-                        <p class="hero-affiliation">Ph.D. Student<br>Technical University of Denmark (DTU)</p>
+                        <p class="hero-affiliation">Ph.D. Student<br>Technical University of Denmark (DTU)<br>Copenhagen</p>
                         <div class="contact-links">
                             <a href="mailto:danli@dtu.dk">
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
@@ -366,7 +366,7 @@
 
     <!-- Duck Pond -->
     <section class="pond-section" id="pond">
-        <div class="pond-hint">click on the pond to add a duck!</div>
+        <div class="pond-hint">click on the pond to add your duck!</div>
         <canvas id="pond-canvas"></canvas>
         <svg class="pond-waves" viewBox="0 0 1440 120" preserveAspectRatio="none">
             <path d="M0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 L0,0 Z" fill="var(--bg)" />
@@ -376,7 +376,7 @@
     <!-- Footer -->
     <footer class="footer pond-footer">
         <div class="container">
-            <p>&copy; 2026 Danya Li &middot; Last updated March 2026</p>
+            <p>&copy; 2026 Danya Li &middot; Last updated April 2026</p>
         </div>
     </footer>
 
@@ -437,37 +437,37 @@
             window.addEventListener('resize', resize);
             resize();
 
-            // Watercolor pond background
+            // Watercolor pond background - matches site theme
             function drawPond() {
-                // Gradient base
+                // Gradient base - dark blue matching site theme
                 const grad = ctx.createLinearGradient(0, 0, 0, H);
-                grad.addColorStop(0, 'rgba(163, 210, 202, 0.6)');
-                grad.addColorStop(0.5, 'rgba(120, 190, 180, 0.7)');
-                grad.addColorStop(1, 'rgba(90, 165, 155, 0.8)');
+                grad.addColorStop(0, 'rgba(54, 85, 130, 0.5)');
+                grad.addColorStop(0.5, 'rgba(42, 70, 110, 0.6)');
+                grad.addColorStop(1, 'rgba(30, 55, 90, 0.7)');
                 ctx.fillStyle = grad;
                 ctx.fillRect(0, 0, W, H);
 
-                // Watercolor blotches
+                // Subtle accent blotches (blue tones)
                 const time = Date.now() * 0.0003;
                 for (let i = 0; i < 8; i++) {
                     const x = W * (0.1 + 0.8 * ((i * 0.137 + Math.sin(time + i)) % 1));
                     const y = H * (0.2 + 0.6 * ((i * 0.293 + Math.cos(time * 0.7 + i * 2)) % 1));
                     const r = 60 + 40 * Math.sin(time + i * 1.5);
                     const g = ctx.createRadialGradient(x, y, 0, x, y, r);
-                    g.addColorStop(0, 'rgba(140, 210, 200, 0.3)');
-                    g.addColorStop(1, 'rgba(140, 210, 200, 0)');
+                    g.addColorStop(0, 'rgba(96, 184, 248, 0.15)');
+                    g.addColorStop(1, 'rgba(96, 184, 248, 0)');
                     ctx.fillStyle = g;
                     ctx.beginPath();
                     ctx.arc(x, y, r, 0, Math.PI * 2);
                     ctx.fill();
                 }
 
-                // Subtle lily pads
+                // Subtle lily pads with accent glow
                 for (let i = 0; i < 4; i++) {
                     const lx = W * (0.15 + i * 0.22);
                     const ly = H * (0.5 + 0.2 * Math.sin(time * 0.5 + i * 3));
                     const lr = 12 + 5 * Math.sin(time + i);
-                    ctx.fillStyle = 'rgba(100, 160, 90, 0.25)';
+                    ctx.fillStyle = 'rgba(96, 184, 248, 0.12)';
                     ctx.beginPath();
                     ctx.ellipse(lx, ly, lr, lr * 0.7, 0.3 * i, 0, Math.PI * 1.8);
                     ctx.fill();
@@ -487,7 +487,7 @@
                     return this.r < this.maxR;
                 }
                 draw() {
-                    ctx.strokeStyle = `rgba(255,255,255,${this.alpha})`;
+                    ctx.strokeStyle = `rgba(96, 184, 248, ${this.alpha * 0.6})`;
                     ctx.lineWidth = 1.5;
                     ctx.beginPath();
                     ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
@@ -507,11 +507,29 @@
                     this.turnTimer = 100 + Math.random() * 200;
                     this.spawnTime = Date.now();
                     this.alpha = 0;
-                    // Color variation
-                    const hue = 35 + Math.random() * 20;
-                    const sat = 70 + Math.random() * 20;
-                    this.bodyColor = `hsl(${hue}, ${sat}%, 65%)`;
-                    this.headColor = `hsl(${hue - 5}, ${sat + 10}%, 55%)`;
+                    // Color variation - blue and warm accent tones matching site
+                    // const useWarmDuck = Math.random() > 0.5;
+                    // if (useWarmDuck) {
+                    //     // Warm accent duck (orange/yellow)
+                    //     const hue = 32 + Math.random() * 12;
+                    //     const sat = 75 + Math.random() * 15;
+                    //     this.bodyColor = `hsl(${hue}, ${sat}%, 60%)`;
+                    //     this.headColor = `hsl(${hue - 5}, ${sat + 10}%, 52%)`;
+                    // } else {
+                    //     // white accent duck 
+                    //     // const hue = 200 + Math.random() * 30;
+                    //     // const sat = 70 + Math.random() * 20;
+                    //     // this.bodyColor = `hsl(${hue}, ${sat}%, 62%)`;
+                    //     // this.headColor = `hsl(${hue - 5}, ${sat + 10}%, 52%)`;
+                    //     // White ducks with slight variation
+                    //     const lightness = 85 + Math.random() * 10;
+                    //     this.bodyColor = `hsl(0, 0%, ${lightness}%)`;
+                    //     this.headColor = `hsl(0, 0%, ${lightness - 5}%)`;
+                    // }
+                    // White ducks with slight variation
+                    const lightness = 85 + Math.random() * 10;
+                    this.bodyColor = `hsl(0, 0%, ${lightness}%)`;
+                    this.headColor = `hsl(0, 0%, ${lightness - 5}%)`;
                 }
                 update() {
                     // Fade in
@@ -553,63 +571,119 @@
                     ctx.translate(dx, dy);
                     ctx.scale(this.dir, 1);
 
-                    // Wake/trail in water
-                    ctx.fillStyle = 'rgba(255,255,255,0.15)';
+                    // Wake/trail in water - subtle accent glow
+                    ctx.fillStyle = 'rgba(96, 184, 248, 0.08)';
                     ctx.beginPath();
                     ctx.ellipse(0, s * 0.35, s * 0.9, s * 0.2, 0, 0, Math.PI * 2);
                     ctx.fill();
 
-                    // Body
+                    // Main body - wide and flat like a duck
                     ctx.fillStyle = this.bodyColor;
                     ctx.beginPath();
-                    ctx.ellipse(0, 0, s * 0.65, s * 0.45, -0.1, 0, Math.PI * 2);
-                    ctx.fill();
-                    // Body watercolor edge
-                    ctx.strokeStyle = 'rgba(180, 140, 60, 0.2)';
-                    ctx.lineWidth = 1;
-                    ctx.stroke();
-
-                    // Tail
-                    ctx.fillStyle = this.bodyColor;
-                    ctx.beginPath();
-                    ctx.moveTo(-s * 0.6, -s * 0.05);
-                    ctx.lineTo(-s * 0.9, -s * 0.3);
-                    ctx.lineTo(-s * 0.55, s * 0.1);
-                    ctx.closePath();
+                    ctx.ellipse(0, s * 0.15, s * 0.75, s * 0.45, 0, 0, Math.PI * 2);
                     ctx.fill();
 
-                    // Wing detail
-                    ctx.strokeStyle = 'rgba(150, 110, 40, 0.3)';
-                    ctx.lineWidth = 0.8;
-                    ctx.beginPath();
-                    ctx.ellipse(-s * 0.05, -s * 0.02, s * 0.35, s * 0.25, -0.15, 0.3, Math.PI * 1.4);
-                    ctx.stroke();
+                    // Fluffy body texture
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.18)';
+                    for (let i = 0; i < 14; i++) {
+                        const angle = (i / 14) * Math.PI * 2;
+                        const distance = s * 0.42;
+                        const x = Math.cos(angle) * distance;
+                        const y = Math.sin(angle) * distance + s * 0.15;
+                        const fuzzSize = s * 0.07 + Math.random() * s * 0.05;
+                        ctx.beginPath();
+                        ctx.arc(x, y, fuzzSize, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
 
-                    // Head
+                    // Neck - elongated for duck characteristic
                     ctx.fillStyle = this.headColor;
                     ctx.beginPath();
-                    ctx.arc(s * 0.5, -s * 0.25, s * 0.28, 0, Math.PI * 2);
+                    ctx.ellipse(s * 0.42, -s * 0.15, s * 0.15, s * 0.25, 0.15, 0, Math.PI * 2);
                     ctx.fill();
 
-                    // Eye
+                    // Head - smaller and positioned at top of neck
+                    ctx.fillStyle = this.headColor;
+                    ctx.beginPath();
+                    ctx.arc(s * 0.5, -s * 0.42, s * 0.28, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Head fluffy texture
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.22)';
+                    for (let i = 0; i < 10; i++) {
+                        const angle = (i / 10) * Math.PI * 2;
+                        const distance = s * 0.27;
+                        const x = s * 0.5 + Math.cos(angle) * distance;
+                        const y = -s * 0.42 + Math.sin(angle) * distance;
+                        const fuzzSize = s * 0.055;
+                        ctx.beginPath();
+                        ctx.arc(x, y, fuzzSize, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+
+                    // Wing detail - wide duck wings
+                    ctx.strokeStyle = 'rgba(220, 220, 220, 0.45)';
+                    ctx.lineWidth = 1.3;
+                    ctx.beginPath();
+                    ctx.ellipse(-s * 0.08, s * 0.18, s * 0.4, s * 0.32, -0.1, 0.2, Math.PI * 1.6);
+                    ctx.stroke();
+
+                    // Additional wing curve
+                    ctx.strokeStyle = 'rgba(220, 220, 220, 0.3)';
+                    ctx.lineWidth = 0.9;
+                    ctx.beginPath();
+                    ctx.quadraticCurveTo(-s * 0.35, s * 0.1, -s * 0.25, s * 0.35);
+                    ctx.stroke();
+
+                    // Tail - small upright duck tail
+                    ctx.fillStyle = this.bodyColor;
+                    ctx.beginPath();
+                    ctx.ellipse(-s * 0.6, s * 0.0, s * 0.2, s * 0.4, 0.25, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Tail highlights
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
+                    ctx.beginPath();
+                    ctx.arc(-s * 0.75, -s * 0.08, s * 0.12, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Large expressive eye
                     ctx.fillStyle = '#2a2a2a';
                     ctx.beginPath();
-                    ctx.arc(s * 0.6, -s * 0.3, s * 0.05, 0, Math.PI * 2);
+                    ctx.arc(s * 0.62, -s * 0.45, s * 0.085, 0, Math.PI * 2);
                     ctx.fill();
-                    // Eye highlight
-                    ctx.fillStyle = 'rgba(255,255,255,0.7)';
+                    
+                    // Eye white shine
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
                     ctx.beginPath();
-                    ctx.arc(s * 0.62, -s * 0.32, s * 0.02, 0, Math.PI * 2);
+                    ctx.arc(s * 0.62, -s * 0.45, s * 0.04, 0, Math.PI * 2);
                     ctx.fill();
 
-                    // Beak
-                    ctx.fillStyle = '#e67e22';
+                    // Eye highlight - bright and cute
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.92)';
                     ctx.beginPath();
-                    ctx.moveTo(s * 0.7, -s * 0.22);
-                    ctx.lineTo(s * 0.95, -s * 0.18);
-                    ctx.lineTo(s * 0.7, -s * 0.12);
-                    ctx.closePath();
+                    ctx.arc(s * 0.65, -s * 0.48, s * 0.038, 0, Math.PI * 2);
                     ctx.fill();
+
+                    // Duck bill - long and flat like real duck
+                    ctx.fillStyle = '#f4a05a';
+                    ctx.beginPath();
+                    ctx.ellipse(s * 0.8, -s * 0.42, s * 0.145, s * 0.095, 0.15, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Bill darker edge for dimension
+                    ctx.strokeStyle = '#e8956b';
+                    ctx.lineWidth = 0.7;
+                    ctx.beginPath();
+                    ctx.ellipse(s * 0.8, -s * 0.42, s * 0.145, s * 0.095, 0.15, 0, Math.PI * 2);
+                    ctx.stroke();
+
+                    // Smile/cheek line - subtle
+                    ctx.strokeStyle = 'rgba(100, 100, 100, 0.25)';
+                    ctx.lineWidth = 0.6;
+                    ctx.beginPath();
+                    ctx.quadraticCurveTo(s * 0.2, s * 0.28, s * 0.35, s * 0.32);
+                    ctx.stroke();
 
                     ctx.restore();
                 }
