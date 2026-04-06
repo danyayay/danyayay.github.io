@@ -562,8 +562,13 @@
                         this.x += (Math.random() - 0.5) * 0.5; // slight drift side to side
                         this.bobPhase += 0.15; // spin as falling
                         
-                        // Stop falling when below screen
-                        return this.y > H + this.size * 2;
+                        // Fade out as falling (fade away effect)
+                        const fallAge = Date.now() - this.spawnTime;
+                        const fadeDuration = 2000; // 2 seconds to fully fade
+                        this.alpha = Math.max(0, 1 - (fallAge - 500) / fadeDuration); // Start fading after 0.5s
+                        
+                        // Stop falling when below the entire viewport/page
+                        return this.y > window.innerHeight + this.size * 2;
                     } else {
                         this.bobPhase += 0.04;
                         this.x += this.vx;
@@ -740,8 +745,8 @@
                     ));
                 }
 
-                // Check if pond is almost full (more than 200 ducks)
-                if (ducks.length > 200) {
+                // Check if pond is almost full (more than 180 ducks)
+                if (ducks.length > 180) {
                     triggerReset();
                 }
             });
@@ -755,14 +760,242 @@
                     duck.spawnTime = Date.now();
                 });
                 
-                // After 1.5 seconds, reset with fresh ducks
+                // After pond ducks finish falling (1.5 seconds), trigger Easter Egg
                 setTimeout(() => {
-                    ducks.length = 0; // Clear all ducks
-                    ripples.length = 0; // Clear ripples
-                    // Start with 2 new ducks
-                    ducks.push(new Duck(W * 0.3, H * 0.5, false));
-                    ducks.push(new Duck(W * 0.7, H * 0.4, false));
-                }, 1500);
+                    triggerEasterEgg();
+                    
+                    // After Easter Egg display (5-6 seconds total)
+                    // Reset pond after Easter Eggs disappear
+                    setTimeout(() => {
+                        ducks.length = 0; // Clear all ducks
+                        ripples.length = 0; // Clear ripples
+                        // Start with 2 new ducks
+                        ducks.push(new Duck(W * 0.3, H * 0.5, false));
+                        ducks.push(new Duck(W * 0.7, H * 0.4, false));
+                    }, 6000); // 5-6 seconds after Easter Egg triggers
+                }, 500); // Wait for pond falling animation to complete
+            }
+
+            // Easter Egg: Spawn many falling ducks across the entire page
+            function triggerEasterEgg() {
+                // Create a global falling ducks container overlay
+                if (!document.getElementById('falling-ducks-overlay')) {
+                    const overlay = document.createElement('div');
+                    overlay.id = 'falling-ducks-overlay';
+                    overlay.style.cssText = `
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        pointer-events: none;
+                        z-index: 50;
+                    `;
+                    document.body.appendChild(overlay);
+                }
+                
+                const overlay = document.getElementById('falling-ducks-overlay');
+                overlay.innerHTML = ''; // Clear previous ducks
+
+                // Spawn 180-200 ducks across the viewport
+                const numDucks = 180 + Math.floor(Math.random() * 20);
+                for (let i = 0; i < numDucks; i++) {
+                    setTimeout(() => {
+                        const x = Math.random() * window.innerWidth;
+                        const y = -50; // Start above viewport
+                        const fallSpeed = 1.5 + Math.random() * 3; // 2-4
+                        const rotation = Math.random() * 360;
+                        const swayAmount = 20 + Math.random() * 40; // Horizontal sway
+                        const swaySpeed = 0.5 + Math.random() * 1.5;
+                        
+                        createFallingDuck(overlay, x, y, fallSpeed, rotation, swayAmount, swaySpeed);
+                    }, i * 30); // Stagger spawn time
+                }
+            }
+
+            // Create individual falling duck element
+            function createFallingDuck(container, startX, startY, fallSpeed, rotation, swayAmount, swaySpeed) {
+                // Create canvas element for duck drawing
+                const canvas = document.createElement('canvas');
+                canvas.width = 60;
+                canvas.height = 60;
+                const ctx = canvas.getContext('2d');
+                
+                // Duck rendering properties
+                const duckSize = 20;
+                const lightness = 85 + Math.random() * 10;
+                const bodyColor = `hsl(0, 0%, ${lightness}%)`;
+                const headColor = `hsl(0, 0%, ${lightness - 5}%)`;
+                
+                // Draw duck on canvas
+                function drawDuckOnCanvas() {
+                    ctx.clearRect(0, 0, 60, 60);
+                    const centerX = 30;
+                    const centerY = 30;
+                    const s = duckSize;
+                    
+                    ctx.save();
+                    ctx.translate(centerX, centerY);
+                    
+                    // Wake/trail in water - warm shimmer
+                    ctx.fillStyle = 'rgba(251, 191, 36, 0.12)';
+                    ctx.beginPath();
+                    ctx.ellipse(0, s * 0.35, s * 0.9, s * 0.2, 0, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Main body
+                    ctx.fillStyle = bodyColor;
+                    ctx.beginPath();
+                    ctx.ellipse(0, s * 0.15, s * 0.75, s * 0.45, 0, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Fluffy body texture
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.18)';
+                    for (let i = 0; i < 14; i++) {
+                        const angle = (i / 14) * Math.PI * 2;
+                        const distance = s * 0.42;
+                        const x = Math.cos(angle) * distance;
+                        const y = Math.sin(angle) * distance + s * 0.15;
+                        const fuzzSize = s * 0.07 + Math.random() * s * 0.05;
+                        ctx.beginPath();
+                        ctx.arc(x, y, fuzzSize, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+
+                    // Neck
+                    ctx.fillStyle = headColor;
+                    ctx.beginPath();
+                    ctx.ellipse(s * 0.42, -s * 0.15, s * 0.15, s * 0.25, 0.15, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Head
+                    ctx.fillStyle = headColor;
+                    ctx.beginPath();
+                    ctx.arc(s * 0.5, -s * 0.42, s * 0.28, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Head fluffy texture
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.22)';
+                    for (let i = 0; i < 10; i++) {
+                        const angle = (i / 10) * Math.PI * 2;
+                        const distance = s * 0.27;
+                        const x = s * 0.5 + Math.cos(angle) * distance;
+                        const y = -s * 0.42 + Math.sin(angle) * distance;
+                        const fuzzSize = s * 0.055;
+                        ctx.beginPath();
+                        ctx.arc(x, y, fuzzSize, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+
+                    // Wing detail
+                    ctx.strokeStyle = 'rgba(220, 220, 220, 0.45)';
+                    ctx.lineWidth = 1.3;
+                    ctx.beginPath();
+                    ctx.ellipse(-s * 0.08, s * 0.18, s * 0.4, s * 0.32, -0.1, 0.2, Math.PI * 1.6);
+                    ctx.stroke();
+
+                    // Additional wing curve
+                    ctx.strokeStyle = 'rgba(220, 220, 220, 0.3)';
+                    ctx.lineWidth = 0.9;
+                    ctx.beginPath();
+                    ctx.quadraticCurveTo(-s * 0.35, s * 0.1, -s * 0.25, s * 0.35);
+                    ctx.stroke();
+
+                    // Tail
+                    ctx.fillStyle = bodyColor;
+                    ctx.beginPath();
+                    ctx.ellipse(-s * 0.6, s * 0.0, s * 0.2, s * 0.4, 0.25, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Tail highlights
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
+                    ctx.beginPath();
+                    ctx.arc(-s * 0.75, -s * 0.08, s * 0.12, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Large expressive eye
+                    ctx.fillStyle = '#2a2a2a';
+                    ctx.beginPath();
+                    ctx.arc(s * 0.62, -s * 0.45, s * 0.085, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    // Eye white shine
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
+                    ctx.beginPath();
+                    ctx.arc(s * 0.62, -s * 0.45, s * 0.04, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Eye highlight
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.92)';
+                    ctx.beginPath();
+                    ctx.arc(s * 0.65, -s * 0.48, s * 0.038, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Duck bill
+                    ctx.fillStyle = '#FF6B1A';
+                    ctx.beginPath();
+                    ctx.ellipse(s * 0.8, -s * 0.42, s * 0.145, s * 0.095, 0.15, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Bill darker edge
+                    ctx.strokeStyle = '#D94100';
+                    ctx.lineWidth = 0.7;
+                    ctx.beginPath();
+                    ctx.ellipse(s * 0.8, -s * 0.42, s * 0.145, s * 0.095, 0.15, 0, Math.PI * 2);
+                    ctx.stroke();
+
+                    // Smile/cheek line
+                    ctx.strokeStyle = 'rgba(100, 100, 100, 0.25)';
+                    ctx.lineWidth = 0.6;
+                    ctx.beginPath();
+                    ctx.quadraticCurveTo(s * 0.2, s * 0.28, s * 0.35, s * 0.32);
+                    ctx.stroke();
+
+                    ctx.restore();
+                }
+                
+                drawDuckOnCanvas();
+                
+                const duckWrapper = document.createElement('div');
+                duckWrapper.style.cssText = `
+                    position: fixed;
+                    user-select: none;
+                    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+                `;
+                duckWrapper.appendChild(canvas);
+                
+                // Get random start position and duration
+                const duration = (window.innerHeight + 200) / (fallSpeed * 100);
+                const startTime = Date.now();
+                
+                container.appendChild(duckWrapper);
+                
+                function animate() {
+                    const elapsed = (Date.now() - startTime) / 1000;
+                    if (elapsed > duration) {
+                        duckWrapper.remove();
+                        return;
+                    }
+                    
+                    // Vertical fall
+                    const y = startY + (fallSpeed * 100 * elapsed);
+                    
+                    // Horizontal sway (sine wave motion)
+                    const sway = Math.sin(elapsed * swaySpeed) * swayAmount;
+                    const x = startX + sway;
+                    
+                    // Spin as it falls
+                    const spin = (elapsed * 360 * fallSpeed) + rotation;
+                    
+                    duckWrapper.style.left = x + 'px';
+                    duckWrapper.style.top = y + 'px';
+                    duckWrapper.style.transform = `translate(-50%, -50%) rotate(${spin}deg)`;
+                    duckWrapper.style.opacity = Math.max(0, 1 - elapsed / (duration - 0.3)); // Fade out at end
+                    
+                    requestAnimationFrame(animate);
+                }
+                
+                animate();
             }
 
             // Animation loop
