@@ -507,7 +507,7 @@
 
             // Duck class
             class Duck {
-                constructor(x, y) {
+                constructor(x, y, isFalling = false) {
                     this.x = x; this.y = y;
                     this.vx = (Math.random() - 0.5) * 0.6;
                     this.vy = (Math.random() - 0.5) * 0.3;
@@ -517,6 +517,15 @@
                     this.turnTimer = 100 + Math.random() * 200;
                     this.spawnTime = Date.now();
                     this.alpha = 0;
+                    this.isFalling = isFalling;
+                    if (isFalling) {
+                        this.y = -this.size * 2; // Start from top of page
+                        this.fallVelocity = 0;
+                        this.fallAcceleration = 0.08 + Math.random() * 0.12; // Different falling rates (0.08 - 0.20)
+                    } else {
+                        this.fallVelocity = null;
+                        this.fallAcceleration = null;
+                    }
                     // Color variation - blue and warm accent tones matching site
                     // const useWarmDuck = Math.random() > 0.5;
                     // if (useWarmDuck) {
@@ -546,35 +555,47 @@
                     const age = Date.now() - this.spawnTime;
                     this.alpha = Math.min(1, age / 500);
 
-                    this.bobPhase += 0.04;
-                    this.x += this.vx;
-                    this.y += this.vy;
+                    if (this.isFalling) {
+                        // Falling animation - accelerate downward with varying rates
+                        this.fallVelocity += this.fallAcceleration; // gravity with individual acceleration
+                        this.y += this.fallVelocity;
+                        this.x += (Math.random() - 0.5) * 0.5; // slight drift side to side
+                        this.bobPhase += 0.15; // spin as falling
+                        
+                        // Stop falling when below screen
+                        return this.y > H + this.size * 2;
+                    } else {
+                        this.bobPhase += 0.04;
+                        this.x += this.vx;
+                        this.y += this.vy;
 
-                    // Bounce off edges and constrain to wave
-                    if (this.x < this.size) { this.x = this.size; this.vx *= -1; this.dir = 1; }
-                    if (this.x > W - this.size) { this.x = W - this.size; this.vx *= -1; this.dir = -1; }
-                    
-                    // Get wave height at duck's x position and constrain duck above it
-                    const waveHeightAtX = getWaveHeightAtX(this.x);
-                    if (this.y < waveHeightAtX + this.size) { 
-                        this.y = waveHeightAtX + this.size; 
-                        this.vy *= -1; 
-                    }
-                    if (this.y > H - this.size) { this.y = H - this.size; this.vy *= -1; }
+                        // Bounce off edges and constrain to wave
+                        if (this.x < this.size) { this.x = this.size; this.vx *= -1; this.dir = 1; }
+                        if (this.x > W - this.size) { this.x = W - this.size; this.vx *= -1; this.dir = -1; }
+                        
+                        // Get wave height at duck's x position and constrain duck above it
+                        const waveHeightAtX = getWaveHeightAtX(this.x);
+                        if (this.y < waveHeightAtX + this.size) { 
+                            this.y = waveHeightAtX + this.size; 
+                            this.vy *= -1; 
+                        }
+                        if (this.y > H - this.size) { this.y = H - this.size; this.vy *= -1; }
 
-                    // Random direction changes
-                    this.turnTimer--;
-                    if (this.turnTimer <= 0) {
-                        this.vx = (Math.random() - 0.5) * 0.6;
-                        this.vy = (Math.random() - 0.5) * 0.3;
-                        this.dir = this.vx >= 0 ? 1 : -1;
-                        this.turnTimer = 100 + Math.random() * 200;
-                    }
+                        // Random direction changes
+                        this.turnTimer--;
+                        if (this.turnTimer <= 0) {
+                            this.vx = (Math.random() - 0.5) * 0.6;
+                            this.vy = (Math.random() - 0.5) * 0.3;
+                            this.dir = this.vx >= 0 ? 1 : -1;
+                            this.turnTimer = 100 + Math.random() * 200;
+                        }
 
-                    // Occasional ripple
-                    if (Math.random() < 0.008) {
-                        ripples.push(new Ripple(this.x, this.y + this.size * 0.3));
+                        // Occasional ripple
+                        if (Math.random() < 0.008) {
+                            ripples.push(new Ripple(this.x, this.y + this.size * 0.3));
+                        }
                     }
+                    return false;
                 }
                 draw() {
                     const s = this.size;
@@ -682,13 +703,13 @@
                     ctx.fill();
 
                     // Duck bill - long and flat like real duck
-                    ctx.fillStyle = '#f4a05a';
+                    ctx.fillStyle = '#FF6B1A';
                     ctx.beginPath();
                     ctx.ellipse(s * 0.8, -s * 0.42, s * 0.145, s * 0.095, 0.15, 0, Math.PI * 2);
                     ctx.fill();
 
                     // Bill darker edge for dimension
-                    ctx.strokeStyle = '#e8956b';
+                    ctx.strokeStyle = '#D94100';
                     ctx.lineWidth = 0.7;
                     ctx.beginPath();
                     ctx.ellipse(s * 0.8, -s * 0.42, s * 0.145, s * 0.095, 0.15, 0, Math.PI * 2);
@@ -710,7 +731,7 @@
                 const rect = canvas.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
-                ducks.push(new Duck(x, y));
+                ducks.push(new Duck(x, y, false));
                 // Splash ripples
                 for (let i = 0; i < 3; i++) {
                     ripples.push(new Ripple(
@@ -718,7 +739,31 @@
                         y + (Math.random() - 0.5) * 20
                     ));
                 }
+
+                // Check if pond is almost full (more than 200 ducks)
+                if (ducks.length > 200) {
+                    triggerReset();
+                }
             });
+
+            // Reset function - make all ducks fall and clear pond
+            function triggerReset() {
+                // Convert all existing ducks to falling state
+                ducks.forEach(duck => {
+                    duck.isFalling = true;
+                    duck.fallVelocity = 0;
+                    duck.spawnTime = Date.now();
+                });
+                
+                // After 1.5 seconds, reset with fresh ducks
+                setTimeout(() => {
+                    ducks.length = 0; // Clear all ducks
+                    ripples.length = 0; // Clear ripples
+                    // Start with 2 new ducks
+                    ducks.push(new Duck(W * 0.3, H * 0.5, false));
+                    ducks.push(new Duck(W * 0.7, H * 0.4, false));
+                }, 1500);
+            }
 
             // Animation loop
             function animate() {
@@ -789,15 +834,22 @@
                     }
                 }
                 // Update & draw ducks
-                ducks.forEach(d => { d.update(); d.draw(); });
+                for (let i = ducks.length - 1; i >= 0; i--) {
+                    const shouldRemove = ducks[i].update();
+                    if (shouldRemove && ducks[i].isFalling) {
+                        ducks.splice(i, 1); // Remove ducks that have fallen off screen
+                    } else {
+                        ducks[i].draw();
+                    }
+                }
 
                 requestAnimationFrame(animate);
             }
             animate();
 
             // Start with 2 ducks
-            ducks.push(new Duck(W * 0.3, H * 0.5));
-            ducks.push(new Duck(W * 0.7, H * 0.4));
+            ducks.push(new Duck(W * 0.3, H * 0.5, false));
+            ducks.push(new Duck(W * 0.7, H * 0.4, false));
 
             // ===== Animated Wave =====
             const wavePathElement = document.getElementById('wave-path');
