@@ -410,35 +410,6 @@
     </footer>
 
     <script>
-        // ===== Avatar hover sound =====
-        (function() {
-            const wrap = document.querySelector('.hero-photo-wrap');
-            if (!wrap) return;
-            let ctx = null;
-
-            function playUnlockSound() {
-                if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
-                // Retro ascending arpeggio: C5 E5 G5 C6
-                const notes = [523.25, 659.25, 783.99, 1046.50];
-                const now = ctx.currentTime;
-                notes.forEach((freq, i) => {
-                    const osc = ctx.createOscillator();
-                    const gain = ctx.createGain();
-                    osc.connect(gain);
-                    gain.connect(ctx.destination);
-                    osc.type = 'square';
-                    osc.frequency.setValueAtTime(freq, now + i * 0.08);
-                    gain.gain.setValueAtTime(0, now + i * 0.08);
-                    gain.gain.linearRampToValueAtTime(0.08, now + i * 0.08 + 0.01);
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.08 + 0.18);
-                    osc.start(now + i * 0.08);
-                    osc.stop(now + i * 0.08 + 0.2);
-                });
-            }
-
-            wrap.addEventListener('mouseenter', playUnlockSound);
-        })();
-
         // ===== Hero name letter animation =====
         (function() {
             const letters = document.querySelectorAll('.name-letter');
