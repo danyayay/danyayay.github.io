@@ -200,6 +200,10 @@ a:hover {
     padding-bottom: 88px;
     position: relative;
     overflow: hidden;
+    --orb1-x: 20%;
+    --orb1-y: 10%;
+    --orb2-x: 80%;
+    --orb2-y: 80%;
 }
 
 /* Big decorative number / letter in background */
@@ -295,20 +299,55 @@ a:hover {
 }
 
 /* Photo */
-.hero-photo {
+.hero-photo-wrap {
+    position: relative;
     width: 192px;
     height: 240px;
     border-radius: 4px;
-    object-fit: cover;
-    display: block;
     border: 3px solid var(--text);
     box-shadow: 8px 8px 0 var(--accent), var(--shadow-card);
     transition: box-shadow 0.35s var(--ease), transform 0.35s var(--ease);
+    flex-shrink: 0;
+    overflow: hidden;
 }
 
-.hero-photo:hover {
+.hero-photo-wrap:hover {
     box-shadow: 10px 10px 0 var(--accent-warm), var(--shadow-hover);
     transform: translate(-2px, -2px);
+}
+
+.hero-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: opacity 0.4s var(--ease), transform 0.4s var(--ease), filter 0.4s var(--ease);
+}
+
+.hero-photo-lego {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0px);
+}
+
+.hero-photo-real {
+    opacity: 0;
+    transform: scale(1.06);
+    filter: blur(6px);
+}
+
+.hero-photo-wrap:hover .hero-photo-lego {
+    opacity: 0;
+    transform: scale(0.94);
+    filter: blur(6px);
+}
+
+.hero-photo-wrap:hover .hero-photo-real {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0px);
 }
 
 .hero-contact h2 { display: none; }
@@ -871,6 +910,43 @@ a:hover {
 .pub-card:nth-child(4) { transition-delay: 180ms; }
 .pub-card:nth-child(5) { transition-delay: 240ms; }
 
+/* ===== Hero name letter animation ===== */
+@keyframes letterDrop {
+    0%   { opacity: 0; transform: translateY(-18px) rotate(-4deg); }
+    60%  { transform: translateY(4px) rotate(1deg); }
+    100% { opacity: 1; transform: translateY(0) rotate(0deg); }
+}
+
+.name-letter {
+    display: inline-block;
+    opacity: 0;
+}
+
+.name-letter.name-space {
+    width: 0.28em;
+    animation: none;
+    opacity: 1;
+}
+
+.name-letter.name-letter-in {
+    animation: letterDrop 0.55s var(--ease) forwards;
+    animation-delay: calc(var(--i, 0) * 60ms);
+}
+
+/* ===== Mouse-reactive hero orbs ===== */
+.hero-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(ellipse 55% 40% at var(--orb1-x) var(--orb1-y), rgba(251, 191, 36, 0.32) 0%, transparent 65%),
+        radial-gradient(ellipse 45% 35% at var(--orb2-x) var(--orb2-y), rgba(234, 88, 12, 0.14) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 60% at 60% 30%, rgba(124, 58, 237, 0.06) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
     .nav-links { display: none; }
@@ -902,7 +978,7 @@ a:hover {
         gap: 24px;
     }
 
-    .hero-photo {
+    .hero-photo-wrap {
         width: 120px;
         height: 150px;
         box-shadow: 6px 6px 0 var(--accent);

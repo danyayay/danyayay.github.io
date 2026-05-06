@@ -49,7 +49,7 @@
                 <!-- Left: Name + Bio -->
                 <div class="hero-bio-col">
                     <div class="hero-name-block">
-                        <h1>Danya Li</h1>
+                        <h1 class="hero-name-animated"><span class="name-letter" style="--i:0">D</span><span class="name-letter" style="--i:1">a</span><span class="name-letter" style="--i:2">n</span><span class="name-letter" style="--i:3">y</span><span class="name-letter" style="--i:4">a</span><span class="name-letter name-space"> </span><span class="name-letter" style="--i:5">L</span><span class="name-letter" style="--i:6">i</span></h1>
                         <!-- <p class="hero-tagline">Ph.D. Researcher &middot; DTU &middot; Copenhagen</p> -->
                     </div>
                     <div class="hero-divider"></div>
@@ -81,7 +81,10 @@
                 </div>
                 <!-- Right: Photo + Contact -->
                 <div class="hero-photo-col">
-                    <img src="figures/danya.jpg" alt="Danya Li" class="hero-photo">
+                    <div class="hero-photo-wrap">
+                        <img src="figures/danya_lego.png" alt="Danya Li lego avatar" class="hero-photo hero-photo-lego">
+                        <img src="figures/danya.jpg"      alt="Danya Li"             class="hero-photo hero-photo-real">
+                    </div>
                     <div class="hero-contact">
                         <h2>Danya Li</h2>
                         <p class="hero-affiliation">Ph.D. Student<br>Technical University of Denmark (DTU)<br>Copenhagen</p>
@@ -407,6 +410,78 @@
     </footer>
 
     <script>
+        // ===== Avatar hover sound =====
+        (function() {
+            const wrap = document.querySelector('.hero-photo-wrap');
+            if (!wrap) return;
+            let ctx = null;
+
+            function playUnlockSound() {
+                if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+                // Retro ascending arpeggio: C5 E5 G5 C6
+                const notes = [523.25, 659.25, 783.99, 1046.50];
+                const now = ctx.currentTime;
+                notes.forEach((freq, i) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(freq, now + i * 0.08);
+                    gain.gain.setValueAtTime(0, now + i * 0.08);
+                    gain.gain.linearRampToValueAtTime(0.08, now + i * 0.08 + 0.01);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.08 + 0.18);
+                    osc.start(now + i * 0.08);
+                    osc.stop(now + i * 0.08 + 0.2);
+                });
+            }
+
+            wrap.addEventListener('mouseenter', playUnlockSound);
+        })();
+
+        // ===== Hero name letter animation =====
+        (function() {
+            const letters = document.querySelectorAll('.name-letter');
+            letters.forEach(el => el.classList.add('name-letter-in'));
+        })();
+
+        // ===== Mouse-reactive hero background =====
+        (function() {
+            const hero = document.querySelector('.hero-section');
+            if (!hero) return;
+            let mouseX = 0.5, mouseY = 0.5;
+            let currentX = 0.5, currentY = 0.5;
+            let raf;
+
+            hero.addEventListener('mousemove', (e) => {
+                const rect = hero.getBoundingClientRect();
+                mouseX = (e.clientX - rect.left) / rect.width;
+                mouseY = (e.clientY - rect.top) / rect.height;
+            });
+
+            hero.addEventListener('mouseleave', () => {
+                mouseX = 0.5;
+                mouseY = 0.5;
+            });
+
+            function lerp(a, b, t) { return a + (b - a) * t; }
+
+            function tick() {
+                currentX = lerp(currentX, mouseX, 0.06);
+                currentY = lerp(currentY, mouseY, 0.06);
+                const x1 = (currentX * 40).toFixed(1);
+                const y1 = (currentY * 30).toFixed(1);
+                const x2 = (80 - currentX * 30).toFixed(1);
+                const y2 = (80 - currentY * 20).toFixed(1);
+                hero.style.setProperty('--orb1-x', `${x1}%`);
+                hero.style.setProperty('--orb1-y', `${y1}%`);
+                hero.style.setProperty('--orb2-x', `${x2}%`);
+                hero.style.setProperty('--orb2-y', `${y2}%`);
+                raf = requestAnimationFrame(tick);
+            }
+            tick();
+        })();
+
         // Mobile nav
         const toggle = document.getElementById('nav-toggle');
         const mobileNav = document.getElementById('nav-mobile');
