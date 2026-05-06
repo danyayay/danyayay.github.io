@@ -18,6 +18,7 @@
     --accent-warm: #EA580C;
     --accent-violet: #7C3AED;
     --accent-teal: #0D9488;
+    --accent-blue: #3B82F6;
     --border: rgba(28, 22, 18, 0.1);
     --border-strong: rgba(220, 38, 38, 0.3);
     --shadow-card: 0 4px 6px -1px rgba(28, 22, 18, 0.08), 0 2px 4px -2px rgba(28, 22, 18, 0.06);
@@ -525,8 +526,11 @@ a:hover {
 
 .pub-card:nth-child(2)::before { background: linear-gradient(180deg, var(--accent-violet), var(--accent-teal)); }
 .pub-card:nth-child(3)::before { background: linear-gradient(180deg, var(--accent-teal), var(--accent)); }
-.pub-card:nth-child(4)::before { background: linear-gradient(180deg, var(--accent-warm), var(--accent-violet)); }
-.pub-card:nth-child(5)::before { background: linear-gradient(180deg, var(--accent), var(--accent-violet)); }
+.pub-card:nth-child(4)::before { background: linear-gradient(180deg, var(--accent), var(--accent-violet)); }
+.pub-card:nth-child(5)::before { background: linear-gradient(180deg, var(--accent-violet), var(--accent-warm)); }
+.pub-card:nth-child(6)::before { background: linear-gradient(180deg, var(--accent-warm), var(--accent-blue)); }
+.pub-card:nth-child(7)::before { background: linear-gradient(180deg, var(--accent-blue), var(--accent)); }
+.pub-card:nth-child(8)::before { background: linear-gradient(180deg, var(--accent), var(--accent-teal)); }
 
 .pub-card:last-child { margin-bottom: 0; }
 
@@ -544,7 +548,7 @@ a:hover {
     height: 136px;
     border-radius: 4px;
     overflow: hidden;
-    background: var(--bg-surface);
+    background: var(--bg-card);
     border: 1.5px solid var(--border);
     display: flex;
     align-items: center;
@@ -662,7 +666,7 @@ a:hover {
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background: var(--bg-surface);
+    background: var(--bg-card-hover);
     border: 2px solid var(--accent);
     transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
 }
